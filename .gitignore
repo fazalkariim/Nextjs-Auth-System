@@ -1,41 +1,37 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+### 2. **`.gitignore`** Example:
 
-# testing
-/coverage
+Yeh `.gitignore` file aapko project mein use karna hai taake unnecessary files GitHub par na push ho:
 
-# next.js
-/.next/
-/out/
+```gitignore
+# Node.js dependencies
+node_modules/
 
-# production
-/build
+# Next.js build output
+.next/
 
-# misc
-.DS_Store
-*.pem
+# Local environment files
+.env.local
+.env.development
+.env.test
+.env.production
 
-# debug
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# VS Code settings
+.vscode/
 
-# vercel
-.vercel
+# MacOS system files
+.DS_Store
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# Windows system files
+Thumbs.db
+
+# Optional npm cache directory
+.npm/
+
+# Debug
+debug/
