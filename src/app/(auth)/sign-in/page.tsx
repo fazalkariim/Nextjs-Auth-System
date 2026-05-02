@@ -2,7 +2,6 @@
 
 import FormLayout from '@/components/layouts/FormLayout';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react'
 import { useForm } from 'react-hook-form';
 import { FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -10,25 +9,18 @@ import {z} from 'zod';
 
 const formSchema = z
     .object({
-        name: z.string().min(2,{
-            message:"Name must be atleast 2 characters!"
-        }),
         email: z.string().email({
             message:"Enter a valid email!"
         }),
         password: z.string().min(6,{
             message:"Password must be atleast 6 characters!"
         }),
-        confirmPassword: z.string(),
     })
-    .refine((data)=> data.password === data.confirmPassword, {
-        message:"Password do not match!",
-        path:["confirmPassword"],
-    })
+   
 
     type FormData = z.infer<typeof formSchema>
 
-    export default function SignupPage() {
+export default function SigninPage() {
       const {register,handleSubmit,formState:{errors}} = useForm<FormData>({
         resolver:zodResolver(formSchema),
         mode: "onChange"
@@ -38,19 +30,9 @@ const formSchema = z
         console.log(data)
     }
   return (    
-      <FormLayout title='Create an account' subTitle='Signup to get started'>
+      <FormLayout title='Welcome back' subTitle='Sign in to your account'>
           <form className='space-y-5' onSubmit={handleSubmit(onSubmit)}>
-             <div>
-            <label className='block text-sm text-gray-300 mb-1'>Name</label>
-            <input 
-            {...register("name")}
-            type="text" 
-            placeholder='Fazal Karim' 
-            className={`w-full rounded-lg bg-gray-800 border px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 
-             ${errors.name ? "border-red-500 focus:ring-red-500" : "border-gray-700 focus:ring-teal-500"}`}
-           />
-            {errors.name && <p className='text-xs text-red-400'>{errors.name.message}</p>}
-        </div>
+            
         <div>
             <label className='block text-sm text-gray-300 mb-1'>Email</label>
             <input 
@@ -73,20 +55,9 @@ const formSchema = z
            />
             {errors.password && <p className='text-xs text-red-400'>{errors.password.message}</p>}
             </div>
-        <div>
-            <label className='block text-sm text-gray-300 mb-1'>Confirm Password</label>
-            <input 
-            {...register("confirmPassword")}
-            type="password" 
-            placeholder='**********' 
-            className={`w-full rounded-lg bg-gray-800 border px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 
-             ${errors.confirmPassword ? "border-red-500 focus:ring-red-500" : "border-gray-700 focus:ring-teal-500"}`}
-           />
-            {errors.confirmPassword && <p className='text-xs text-red-400'>{errors.confirmPassword.message}</p>}
-            </div>
 
         <button type='submit' className='w-full cursor-pointer bg-teal-500 hover:bg-teal-600 transition text-white font-medium py-2.5 rounded-lg flex items-center justify-center disabled:opacity-70'>
-            Sign Up
+            Sign In
         </button>
           </form>
 
@@ -113,14 +84,12 @@ const formSchema = z
 
         {/* Footer */}
         <p className="text-sm text-gray-400 text-center mt-6">
-          Already have an account?{"  "}
-          <a href="/sign-in" className="text-teal-400 hover:text-teal-300">
-            Sign In
+          Don&apos;t have an account?{"  "}
+          <a href="/sign-up" className="text-teal-400 hover:text-teal-300">
+            Sign up
           </a> 
         </p>
       </FormLayout>
-
-    
   )
 }
 
