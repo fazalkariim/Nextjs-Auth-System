@@ -1,12 +1,16 @@
 "use client"
-
+ 
+import { authClient } from '@/lib/auth-client';
 import FormLayout from '@/components/layouts/FormLayout';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import {z} from 'zod';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z
     .object({
@@ -28,15 +32,31 @@ const formSchema = z
 
     type FormData = z.infer<typeof formSchema>
 
-    export default function SignupPage() {
-      const {register,handleSubmit,formState:{errors}} = useForm<FormData>({
-        resolver:zodResolver(formSchema),
-        mode: "onChange"
-    });
+export default function SignupPage() {
+    const router = useRouter()
+     const {
+        register,
+        handleSubmit,
+        formState:{errors,isSubmitting},
+    } = useForm<FormData>({
+    resolver:zodResolver(formSchema),
+    mode: "onChange"
+});
 
     const onSubmit = async (data:FormData)=>{
-        console.log(data)
-    }
+        const {error} = await authClient.signUp.email({
+                name:data.name,
+                email:data.email,
+                password:data.password
+            });
+
+            if(error){
+              toast.error(error.message as string);
+              return;
+            }
+            toast.success("Registration Successful")
+            router.push("/sign-in");
+    };
   return (    
       <FormLayout title='Create an account' subTitle='Signup to get started'>
           <form className='space-y-5' onSubmit={handleSubmit(onSubmit)}>
@@ -85,8 +105,12 @@ const formSchema = z
             {errors.confirmPassword && <p className='text-xs text-red-400'>{errors.confirmPassword.message}</p>}
             </div>
 
-        <button type='submit' className='w-full cursor-pointer bg-teal-500 hover:bg-teal-600 transition text-white font-medium py-2.5 rounded-lg flex items-center justify-center disabled:opacity-70'>
-            Sign Up
+        <button 
+        disabled={isSubmitting}
+          type='submit' 
+          className='w-full cursor-pointer bg-teal-500 hover:bg-teal-600 transition text-white font-medium py-2.5 rounded-lg flex items-center justify-center disabled:opacity-70'
+          >
+            {isSubmitting ? "Creating Account..." : "Sign Up"}
         </button>
           </form>
 
@@ -114,9 +138,9 @@ const formSchema = z
         {/* Footer */}
         <p className="text-sm text-gray-400 text-center mt-6">
           Already have an account?{"  "}
-          <a href="/sign-in" className="text-teal-400 hover:text-teal-300">
+          <Link href="/sign-in" className="text-teal-400 hover:text-teal-300">
             Sign In
-          </a> 
+          </Link> 
         </p>
       </FormLayout>
 

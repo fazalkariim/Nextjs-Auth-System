@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   variable:"--font-poppins",
@@ -23,7 +24,10 @@ export default function RootLayout({
       lang="en"
       className={`${poppins.className} h-full antialiased`}
     >
-      <body className="bg-gray-950">{children}</body>
+      <body className="bg-gray-950">
+        {children}
+        <Toaster/>
+        </body>
     </html>
   );
 }

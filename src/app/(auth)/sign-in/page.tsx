@@ -2,6 +2,7 @@
 
 import FormLayout from '@/components/layouts/FormLayout';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -85,9 +86,9 @@ export default function SigninPage() {
         {/* Footer */}
         <p className="text-sm text-gray-400 text-center mt-6">
           Don&apos;t have an account?{"  "}
-          <a href="/sign-up" className="text-teal-400 hover:text-teal-300">
+          <Link href="/sign-up" className="text-teal-400 hover:text-teal-300">
             Sign up
-          </a> 
+          </Link> 
         </p>
       </FormLayout>
   )
